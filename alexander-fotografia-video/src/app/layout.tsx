@@ -1,7 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "PhotoCloud",
+  title: "Foto Estudio Alexander",
   description: "Gestión fotográfica en la nube",
 };
 
