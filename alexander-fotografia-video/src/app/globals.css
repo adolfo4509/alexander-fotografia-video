@@ -24,3 +24,18 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+button {
+  background-color: var(--foreground);
+  color: var(--background);
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+}
+input {
+  padding: 0.5rem;
+  border: 1px solid var(--foreground);
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  color:white;
+}
