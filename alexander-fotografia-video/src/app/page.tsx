@@ -8,8 +8,10 @@ export default function HomePage() {
 
   const navigateToSessions = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    
-    router.push( e.currentTarget.innerText === "Ver sesiones" ?  "/sessions" : "/gallery");
+    const target = e.currentTarget.getAttribute("href");
+    if (target) {
+      router.push(target);
+    }
   };
 
   return (
@@ -35,6 +37,13 @@ export default function HomePage() {
           className="bg-slate-700 px-4 py-2 rounded text-white"
         >
           Galerías
+        </Link>
+         <Link
+          href="/catalog"
+          onClick={(e) => navigateToSessions(e)}
+          className="bg-slate-700 px-4 py-2 rounded text-white"
+        >
+        Catalogo de Imagenes
         </Link>
       </div>
     </section>

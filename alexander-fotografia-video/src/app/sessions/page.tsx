@@ -1,6 +1,7 @@
 'use client';
 
 import { useSessions } from '@/hooks/useSessions';
+import Link from 'next/link';
 import { useState } from 'react';
 
 export default function SessionsPage() {
@@ -29,6 +30,7 @@ export default function SessionsPage() {
         <input
           className="w-full rounded bg-slate-800 p-2"
           type="date"
+          placeholder="Fecha de la sesión"
           value={date}
           onChange={e => setDate(e.target.value)}
         />
@@ -42,13 +44,20 @@ export default function SessionsPage() {
       ) : (
         <ul className="space-y-2">
           {sessions.map(s => (
+            <>
             <li key={s.id} className="border border-slate-700 rounded p-2">
               <p className="font-semibold">{s.clientName}</p>
               <p className="text-sm text-slate-400">{s.date}</p>
             </li>
+            <Link href={`/gallery/${s.id}`} className="text-indigo-400 underline">
+        Ver galería
+      </Link>
+      </>
           ))}
         </ul>
+        
       )}
+      
     </section>
   );
 }
