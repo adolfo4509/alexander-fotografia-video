@@ -44,20 +44,20 @@ export default function SessionsPage() {
       ) : (
         <ul className="space-y-2">
           {sessions.map(s => (
-            <>
             <li key={s.id} className="border border-slate-700 rounded p-2">
               <p className="font-semibold">{s.clientName}</p>
               <p className="text-sm text-slate-400">{s.date}</p>
+          <Link href={`/gallery/${s.id}`} className="text-indigo-400 underline">
+                Ver galería
+              </Link>
             </li>
-            <Link href={`/gallery/${s.id}`} className="text-indigo-400 underline">
-        Ver galería
-      </Link>
-      </>
+            
           ))}
+            
         </ul>
-        
+
       )}
-      
+
     </section>
   );
 }

@@ -18,9 +18,10 @@ export function useSessions() {
 
   const addSession = async (clientName: string, date: string) => {
     await createSession({ clientName, date });
+   
     const data = await getSessions();
     setSessions(data);
   };
-
+ 
   return { sessions, loading, addSession };
 }

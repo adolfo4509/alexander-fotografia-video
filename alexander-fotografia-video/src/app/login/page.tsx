@@ -14,8 +14,10 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await login(email, password);
-      document.cookie = "firebase-auth=true; path=/";
-      router.push("/sessions");
+      if (typeof window !== "undefined") {
+        document.cookie = "firebase-auth=true; path=/";
+        router.push("/sessions");
+      }
     } catch (err: any) {
       setError("Credenciales incorrectas");
     }

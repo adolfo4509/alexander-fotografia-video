@@ -7,7 +7,7 @@ export async function createSession(data: {
   clientName: string;
   date: string;
 }) {
-  await addDoc(collection(db, SESSIONS_COLLECTION), {
+   addDoc(collection(db, SESSIONS_COLLECTION), {
     ...data,
     createdAt: new Date().toISOString(),
   });
