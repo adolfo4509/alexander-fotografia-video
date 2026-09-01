@@ -17,8 +17,9 @@ export default function GalleryComponent({sessionId}) {
   }, [sessionId]);
   const handleUpload = async () => {
       if (!file) return;
-
-    const url = await uploadPhoto(file, sessionId);
+    
+    const url = await uploadPhoto(sessionId, file);
+   
     await savePhotoUrl(sessionId, url);
 
     const updated = await getPhotos(sessionId);

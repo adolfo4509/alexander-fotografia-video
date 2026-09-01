@@ -20,6 +20,7 @@ export default function LoginPage() {
       }
     } catch (err: any) {
       setError("Credenciales incorrectas");
+    
     }
   };
 

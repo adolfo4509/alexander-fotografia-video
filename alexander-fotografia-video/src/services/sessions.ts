@@ -1,19 +1,50 @@
-import { db } from '@/lib/firebase';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
+// src/services/sessions.ts
+import { db } from "@/lib/firebase";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 
-const SESSIONS_COLLECTION = 'sessions';
-
-export async function createSession(data: {
+export const createSession = async (data: {
   clientName: string;
   date: string;
-}) {
-   addDoc(collection(db, SESSIONS_COLLECTION), {
-    ...data,
-    createdAt: new Date().toISOString(),
+  public?: boolean;
+}) => {
+  const ref = collection(db, "sessions");
+  const result = await addDoc(ref, {
+    clientName: data.clientName,
+    date: data.date,
+    public: data.public ?? false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   });
-}
 
-export async function getSessions() {
-  const snapshot = await getDocs(collection(db, SESSIONS_COLLECTION));
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-}
+  return result.id;
+};
+
+export const getSessions = async () => {
+  const ref = collection(db, "sessions");
+  const snapshot = await getDocs(ref);
+  return snapshot.docs.map((docItem) => ({
+    id: docItem.id,
+    ...docItem.data(),
+  }));
+};
+
+export const updateSession = async (id: string, data: any) => {
+  const ref = doc(db, "sessions", id);
+  await updateDoc(ref, {
+    ...data,
+    updatedAt: new Date(),
+  });
+};
+
+export const deleteSession = async (id: string) => {
+  const ref = doc(db, "sessions", id);
+  await deleteDoc(ref);
+};
+
