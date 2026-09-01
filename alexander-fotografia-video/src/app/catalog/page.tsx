@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { getPublicSessions } from "@/services/catalog";
 import Link from "next/link";
+import { getAllImages } from "@/services/storage/getAllImages";
+import Image from "next/image";
 
 type Session = {
   id: string;
@@ -12,16 +14,17 @@ type Session = {
 };
 
 export default function CatalogPage() {
-  const [sessions, setSessions] = useState<Session[]>([]);
+
+const [imagenes, setImagenes] = useState<string[]>([]);
 
   useEffect(() => {
-    async function load() {
-      const data = await getPublicSessions();
-      setSessions(data as Session[]);
-    }
+    const load = async () => {
+      const urls = await getAllImages("sessions/9r00Cr82aJn2mgwVqLef/");
+      setImagenes(urls);
+    };
     load();
   }, []);
-
+  
   return (
     <div className="space-y-6">
       <h2 className="text-3xl font-bold">Catálogo de sesiones</h2>
@@ -30,20 +33,24 @@ export default function CatalogPage() {
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {sessions.map((s) => (
-          <div key={s.id} className="border border-slate-700 p-4 rounded-lg">
-            <h3 className="text-xl font-semibold">{s.title}</h3>
-            <p className="text-slate-300">Cliente: {s.client}</p>
-            <p className="text-slate-300">Fecha: {s.date}</p>
-
-            <Link
-              href={`/catalog/${s.id}`}
-              className="text-blue-400 underline mt-2 inline-block"
-            >
-              Ver álbum
-            </Link>
-          </div>
-        ))}
+       
+         { imagenes.length > 0 && (
+              <div className="mt-4">
+                <h4 className="text-lg font-semibold">Imágenes de la sesión:</h4>
+                <div className="grid grid-cols-2 gap-4 mt-2">
+                  {imagenes.map((url, index) => (
+                    <Image
+                      key={index}
+                      src={url}
+                      alt={`Imagen ${index + 1}`}
+                      className="rounded-lg"
+                      width={500}
+                      height={300}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
       </div>
     </div>
   );
