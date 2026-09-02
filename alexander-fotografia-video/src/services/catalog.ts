@@ -18,9 +18,9 @@ export async function getPublicSessions() {
 
 
 export async function getPublicGallery(id: string) {
-  const ref = doc(db, "sessions", id);
+  const ref = doc(db, "photos", id);
   const snapshot = await getDoc(ref);
-
+("Snapshot data:", snapshot.data()); // Debugging line
   if (!snapshot.exists()) return [];
 
   const data = snapshot.data();
@@ -29,4 +29,3 @@ export async function getPublicGallery(id: string) {
 
   return data.photos || [];
 }
-

@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { getStorage,ref, listAll, getDownloadURL } from "firebase/storage";
+
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -17,3 +18,10 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+export const storageRef = ref(getStorage(app)); // Referencia raíz de Storage
+export const listAllFiles = async (folderPath: string) => {
+  const folderRef = ref(getStorage(app), folderPath);
+  const result = await listAll(folderRef);
+  const urls = await Promise.all(result.items.map(item => getDownloadURL(item)));
+  return urls;
+}

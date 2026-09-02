@@ -36,7 +36,7 @@ export default function HomePage() {
           onClick={(e) => navigateToSessions(e)}
           className="bg-slate-700 px-4 py-2 rounded text-white"
         >
-          Galerías
+          Subir fotos
         </Link>
          <Link
           href="/catalog"

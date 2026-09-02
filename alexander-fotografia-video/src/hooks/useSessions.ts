@@ -18,7 +18,7 @@ export function useSessions() {
 
   const addSession = async (clientName: string, date: string) => {
     await createSession({ clientName, date });
-   
+   ("Session created successfully with clientName:", clientName, "and date:", date); // Debugging line
     const data = await getSessions();
     setSessions(data);
   };
