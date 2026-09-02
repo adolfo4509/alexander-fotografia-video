@@ -9,9 +9,10 @@ export function LogoutButton() {
 
   const handleLogout = async () => {
     await logout();
-      document.cookie = "firebase-auth=; Max-Age=0; path=/;";
-  document.cookie = "firebase-auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  document.cookie = "firebase-auth=; path=/; secure; samesite=lax; Max-Age=0;";
+    document.cookie = "firebase-auth=; Max-Age=0; path=/;";
+    document.cookie = "firebase-auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "firebase-auth=; path=/; secure; samesite=lax; Max-Age=0;";
+     document.cookie = "firebase-auth=false; path=/";
     router.push("/login");
   };
 
