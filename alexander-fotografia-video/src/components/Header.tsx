@@ -1,34 +1,53 @@
 "use client";
 
 import { logout } from "@/services/auth";
-import { useRouter, usePathname } from "next/navigation";
+import { auth } from "@/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Header() {
   const router = useRouter();
-  const pathname = usePathname();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const protectedRoutes = ["/sessions", "/gallery"];
-  const isPrivate = protectedRoutes.some((route) => pathname.startsWith(route));
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsLoggedIn(!!user);
+    });
+
+    return unsubscribe;
+  }, []);
 
   const handleLogout = async () => {
     await logout();
 
     document.cookie = "firebase-auth=; Max-Age=0; path=/;";
-    document.cookie = "firebase-auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    document.cookie = "firebase-auth=; path=/; secure; samesite=lax; Max-Age=0;";
-
     router.push("/");
   };
 
   return (
-    <header className="border-b border-slate-700 p-4 flex justify-between">
+    <header className="flex justify-between border-b border-slate-700 p-4">
       <h1 className="text-xl font-bold">PhotoCloud Studios</h1>
 
-      {isPrivate && (
+      <Link href="/" className="text-blue-400 underline">
+        Inicio
+      </Link>
+
+
+      {isLoggedIn && (
+        <>
+      <Link href="/sessions" className="text-blue-400 underline">
+        Agendar citas
+      </Link>
+
+      <Link href="/gallery" className="text-blue-400 underline">
+        Subir fotos
+      </Link>
         <button onClick={handleLogout} className="text-red-400 underline">
           Cerrar sesión
         </button>
-      )}
+      </>)}
     </header>
   );
 }

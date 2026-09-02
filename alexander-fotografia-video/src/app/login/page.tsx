@@ -9,18 +9,20 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+const [loading, setLoading] = useState(false);
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      await login(email, password);
-      if (typeof window !== "undefined") {
+    const logueado =  await login(email, password);
+      if (logueado) {
         document.cookie = "firebase-auth=true; path=/";
         router.push("/sessions");
+        setLoading(false);
       }
     } catch (err: any) {
       setError("Credenciales incorrectas");
-    
+      setLoading(false);
     }
   };
 
@@ -50,8 +52,9 @@ export default function LoginPage() {
         <button
           type="submit"
           className="bg-indigo-600 px-4 py-2 rounded text-white w-full"
+          disabled={loading}
         >
-          Entrar
+          {loading ? "Entrando..." : "Entrar"}
         </button>
       </form>
     </section>

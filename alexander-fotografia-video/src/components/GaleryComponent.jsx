@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { uploadPhoto } from "@/services/photos";
 import { savePhotoUrl, getPhotos } from "@/services/gallery";
+import Link from "next/link";
 
 export default function GalleryComponent({sessionId}) {
   
@@ -53,6 +54,9 @@ export default function GalleryComponent({sessionId}) {
           />
         ))}
       </div>
+      <Link href="/catalog" className="text-blue-400 underline">
+        Ir a Galeria Pública
+      </Link>
     </section>
   );
 }

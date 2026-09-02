@@ -1,17 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getPublicSessions } from "@/services/catalog";
-import Link from "next/link";
 import { getAllImages } from "@/services/storage/getAllImages";
 import Image from "next/image";
 
-type Session = {
-  id: string;
-  title: string;
-  client: string;
-  date: string;
-};
 
 export default function CatalogPage() {
 
@@ -19,7 +11,7 @@ const [imagenes, setImagenes] = useState<string[]>([]);
 
   useEffect(() => {
     const load = async () => {
-      const urls = await getAllImages("sessions/9r00Cr82aJn2mgwVqLef/");
+      const urls = await getAllImages("photos/fotos");
       setImagenes(urls);
     };
     load();
