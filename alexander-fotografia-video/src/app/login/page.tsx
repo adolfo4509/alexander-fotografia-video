@@ -15,14 +15,21 @@ const [loading, setLoading] = useState(false);
     setLoading(true);
     try {
     const logueado =  await login(email, password);
+    
+    document.cookie = "firebase-auth=true; path=/";
       if (logueado) {
-        document.cookie = "firebase-auth=true; path=/";
-        router.push("/sessions");
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+          setError("");
+          setEmail("");
+          setPassword("");
+          router.replace("/sessions");
+        }, 1000);
       }
     } catch (err: any) {
       setError("Credenciales incorrectas");
       setLoading(false);
+      
     }
   };
 
@@ -30,7 +37,7 @@ const [loading, setLoading] = useState(false);
     <section className="space-y-4 max-w-md mx-auto mt-10">
       <h2 className="text-2xl font-bold">Iniciar sesión</h2>
 
-      <form onSubmit={handleLogin} className="space-y-3">
+      <form className="space-y-3">
         <input
           type="email"
           placeholder="Correo"
@@ -53,6 +60,7 @@ const [loading, setLoading] = useState(false);
           type="submit"
           className="bg-indigo-600 px-4 py-2 rounded text-white w-full"
           disabled={loading}
+          onClick={handleLogin}
         >
           {loading ? "Entrando..." : "Entrar"}
         </button>
