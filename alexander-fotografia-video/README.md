@@ -1,36 +1,137 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Alexander Fotografía y Video
 
-## Getting Started
+Aplicación web para gestionar sesiones fotográficas, consultar el catálogo de servicios y administrar galerías de imágenes.
 
-First, run the development server:
+## Tecnologías
 
-```bash
+- Next.js 16 con App Router
+- React 19
+- TypeScript
+- Firebase Authentication
+- Cloud Firestore
+- Firebase Storage
+- Tailwind CSS
+
+## Requisitos
+
+- Node.js
+- npm
+- Un proyecto configurado en Firebase
+
+## Instalación
+
+Instala las dependencias del proyecto:
+
+
+npm install
+
+## configura las variables de Firebase en un archivo .env.local en la raíz del proyecto:
+
+- NEXT_PUBLIC_FIREBASE_API_KEY=tu_api_key
+- NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=tu_proyecto.firebaseapp.com
+- NEXT_PUBLIC_FIREBASE_PROJECT_ID=tu_project_id
+- NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=tu_proyecto.firebasestorage.app
+- NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=tu_messaging_sender_id
+- NEXT_PUBLIC_FIREBASE_APP_ID=tu_app_id
+
+Los nombres de las variables deben coincidir con los utilizados en src/lib/firebase.ts.
+
+No compartas las credenciales privadas ni subas archivos .env.local al repositorio.
+
+# Ejecución
+Inicia el servidor de desarrollo:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Después, abre http://localhost:3000 en el navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Comandos disponibles
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+npm run dev      # Inicia el servidor de desarrollo
+npm run build    # Genera la compilación de producción
+npm run start    # Inicia la aplicación compilada
+npm run lint     # Ejecuta ESLint
 
-## Learn More
+# Arquitectura del proyecto
+El proyecto utiliza una arquitectura organizada por responsabilidades:
 
-To learn more about Next.js, take a look at the following resources:
+src/
+├── app/                    # Páginas y rutas de Next.js
+│   ├── catalog/            # Catálogo de servicios
+│   ├── gallery/            # Galerías de imágenes
+│   ├── login/              # Inicio de sesión
+│   └── sessions/           # Gestión de sesiones fotográficas
+├── components/             # Componentes reutilizables
+├── hooks/                  # Hooks personalizados de React
+├── lib/                    # Configuración de Firebase
+└── services/               # Servicios de autenticación y persistencia
+    └── storage/            # Operaciones relacionadas con Firebase Storage
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+ # Responsabilidades principales
+src/app: contiene las páginas y rutas de la aplicación.
+src/components: contiene componentes reutilizables de la interfaz.
+src/hooks: contiene lógica reutilizable basada en hooks de React.
+src/lib/firebase.ts: inicializa y exporta los servicios de Firebase.
+src/services: encapsula las operaciones de autenticación, sesiones, catálogo, galerías e imágenes.
+Integración con Firebase
+La aplicación utiliza diferentes servicios de Firebase:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Firebase Authentication
+Gestiona el inicio y cierre de sesión de los usuarios. El estado de autenticación se observa desde los componentes correspondientes.
 
-## Deploy on Vercel
+Cloud Firestore
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Almacena las fotografías asociadas a cada sesión. Las imágenes pueden incluir metadatos como:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Identificador de la sesión
+Nombre original del archivo
+Tipo de archivo
+Fecha de carga
+Rutas principales
+/ - Página principal.
+/login - Inicio de sesión.
+/sessions - Consulta y gestión de sesiones fotográficas.
+/catalog - Catálogo de servicios.
+/catalog/[id] - Detalle de un servicio.
+/gallery - Consulta de galerías.
+/gallery/[sessionId] - Imágenes asociadas a una sesión específica.
+
+# Servicios principales
+Los servicios de la aplicación se encuentran en src/services:
+
+auth.ts - Inicio y cierre de sesión.
+sessions.ts - Creación y consulta de sesiones fotográficas.
+catalog.ts - Consulta del catálogo de servicios.
+gallery.ts - Consulta de galerías.
+photos.ts - Carga de fotografías y sus metadatos.
+storage/getAllImages.ts - Consulta de imágenes almacenadas en Firebase Storage.
+
+# Flujo general de información
+El usuario inicia sesión mediante Firebase Authentication.
+El usuario consulta o registra una sesión fotográfica.
+La información de la sesión se almacena en Cloud Firestore.
+Las fotografías se cargan en Firebase Storage.
+Los metadatos de cada fotografía se guardan junto con el archivo.
+La galería consulta las imágenes asociadas al identificador de la sesión.
+
+# Validación del proyecto
+Ejecuta ESLint:
+npm run lint
+
+# Genera la compilación de producción:
+npm run build
+
+Si la compilación finaliza correctamente, inicia la aplicación en modo producción:
+
+npm run start
+
+# Despliegue
+La aplicación puede desplegarse en Vercel u otra plataforma compatible con Next.js.
+
+Durante el despliegue, configura las mismas variables de entorno de Firebase utilizadas en .env.local.
+
+También debes verificar que las reglas de:
+
+Firebase Authentication
+Cloud Firestore
+Firebase Storage
