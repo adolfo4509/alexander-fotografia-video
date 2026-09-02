@@ -9,7 +9,6 @@ export async function savePhotoUrl(sessionId: string, url: string) {
 }
 
 export async function getPhotos(sessionId: string) {
-  ("Fetching photos for sessionId:", sessionId); // Debugging line
-  const snapshot = await getDocs(collection(db, `photos`));
+   const snapshot = await getDocs(collection(db, `photos`));
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }
