@@ -14,18 +14,18 @@ const [loading, setLoading] = useState(false);
     e.preventDefault();
     setLoading(true);
     try {
-    const logueado =  await login(email, password);
+     await login(email, password);
     
-    document.cookie = "firebase-auth=true; path=/";
-      if (logueado) {
-        setTimeout(() => {
-          setLoading(false);
-          setError("");
-          setEmail("");
-          setPassword("");
-          router.replace("/sessions");
-        }, 1000);
-      }
+    document.cookie = "firebase-auth=true;"
+     
+    
+    setError("");
+    setEmail("");
+    setPassword("");
+    router.push("/sessions");
+    setLoading(false);
+        
+      
     } catch (err: any) {
       setError("Credenciales incorrectas");
       setLoading(false);
