@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  sassOptions: {
+    additionalData: `$var: red;`,
+  },
   
 };
 
