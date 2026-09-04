@@ -22,11 +22,11 @@ export default function HomePage() {
       </p>
 
       <div className={styles.buttonContainer}>
-        <Link 
+        <Link
           href="/sessions"
           onClick={(e) => navigateToSessions(e)}
           className={styles.button_sessions}
-          
+
         >
           Ver sesiones
         </Link>
@@ -38,12 +38,12 @@ export default function HomePage() {
         >
           Subir fotos
         </Link>
-         <Link
+        <Link
           href="/catalog"
           onClick={(e) => navigateToSessions(e)}
           className={styles.button_catalog}
         >
-        Catalogo de Imagenes
+          Catalogo de Imagenes
         </Link>
       </div>
     </section>

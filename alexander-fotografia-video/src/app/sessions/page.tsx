@@ -2,14 +2,24 @@
 
 import { useSessions } from '@/hooks/useSessions';
 import Link from 'next/link';
-import { useState } from 'react';
-
+import { useState ,useEffect} from 'react';
+import { useRouter } from 'next/navigation';
 export default function SessionsPage() {
+  const router = useRouter();
   const { sessions, loading, addSession } = useSessions();
   const [clientName, setClientName] = useState('');
   const [date, setDate] = useState('');
 
+ /* useEffect(() => {
+fetch("/api/auth/validate")
+  .then(res => {
+    if (res.status === 401) {
+      router.push("/login");
+    }
+  });
+}, []);*/
   const handleSubmit = async (e: React.FormEvent) => {
+
     e.preventDefault();
     await addSession(clientName, date);
     setClientName('');
