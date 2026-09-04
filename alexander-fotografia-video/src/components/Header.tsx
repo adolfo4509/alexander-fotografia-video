@@ -20,11 +20,17 @@ export default function Header() {
   }, []);
 
   const handleLogout = async () => {
-    await logout();
+  // Cerrar sesión en Firebase (cliente)
+  await logout();
 
-    document.cookie = "firebase-auth=; Max-Age=0; path=/;";
-    router.push("/");
-  };
+  // Borrar cookie HTTPOnly en el servidor
+  await fetch("/api/logout", {
+    method: "POST",
+  });
+
+  router.push("/");
+};
+
 
   return (
     <header className="flex justify-between border-b border-slate-700 p-4">

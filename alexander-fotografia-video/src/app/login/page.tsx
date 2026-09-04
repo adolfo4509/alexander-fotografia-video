@@ -11,27 +11,35 @@ export default function LoginPage() {
   const [error, setError] = useState("");
 const [loading, setLoading] = useState(false);
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-     await login(email, password);
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    const userCredential = await login(email, password);
+
+    // Obtener el token del usuario
+    const token = await userCredential?.user.getIdToken();
+
+    // Enviar token al servidor para crear cookie HTTPOnly
+   await fetch("/api/setSessions", {
+  method: "POST",
+  credentials: "include",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ token }),
+});
+
     
-    document.cookie = "firebase-auth=true;"
-     
-    
-    setError("");
-    setEmail("");
-    setPassword("");
-    router.push("/sessions");
+window.location.href = "/sessions";
+
+
+  } catch (err) {
+    setError("Credenciales incorrectas");
+  } finally {
     setLoading(false);
-        
-      
-    } catch (err: any) {
-      setError("Credenciales incorrectas");
-      setLoading(false);
-      
-    }
-  };
+  }
+};
 
   return (
     <section className="space-y-4 max-w-md mx-auto mt-10">
