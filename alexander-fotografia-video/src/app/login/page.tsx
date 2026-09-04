@@ -16,7 +16,9 @@ const [loading, setLoading] = useState(false);
     try {
      await login(email, password);
     
-    document.cookie = "firebase-auth=true;"
+    document.cookie = "firebase-auth=true; path=/; SameSite=Lax; Secure ; max-Age=86400"; // Cookie válida por 1 día
+
+
      
     
     setError("");
